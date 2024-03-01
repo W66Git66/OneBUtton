@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private float speed;//角色移动速度
 
     private float bounceCooldown=0.5f; //弹反冷却时间
+    private float boxingCoolDown = 3f;//拳击持续时间
+    private bool isBoxing = true;
 
     private Vector2 lastJoystickPosition=new Vector2();//保存延迟
     private bool isBounceEventRunning = false;
@@ -29,10 +31,20 @@ public class PlayerController : MonoBehaviour
 
         bounceCooldown -= Time.deltaTime;
         StartCoroutine(BounceEvent(joystick.moveVector));
+        if(boxingCoolDown>0)
+        {
+            boxingCoolDown -= Time.deltaTime;
+            isBoxing = false;
+        }
+        else
+        {
+            isBoxing = true;
+        }
     }
        
     private void Bounce()
     {
+        anim.SetTrigger("Kick");
        Debug.Log("Dash triggered!");
     }
     private void PlayerMove(Vector2 moveVector,float speed)

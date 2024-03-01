@@ -82,8 +82,11 @@ public class PlayerController : MonoBehaviour
             if ((lastJoystickPosition.x * joystick.moveVector.x) < 0
             || lastJoystickPosition.y * joystick.moveVector.y < 0)
             {
+                if (Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) > 90f|| Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) < -90f)
+                {
                     Bounce(); // Ö´ÐÐµ¯·´
                     bounceCooldown = 0.5f;
+                }
             }
             
         }

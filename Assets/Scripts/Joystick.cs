@@ -5,6 +5,9 @@ using UnityEngine.UI;
 public class Joystick : ScrollRect
 {
     protected float JoystickRadiu = 0f;//Ò£¸Ë·¶Î§°ë¾¶
+
+    private float radius=140f;//Ò¡¸Ë×î´ó°ë¾¶
+    
     public Vector2 moveVector=new Vector2();//Ò¡¸ËÏà¶ÔÒÆ¶¯¾àÀë
     protected override void Start()
     {
@@ -17,13 +20,20 @@ public class Joystick : ScrollRect
     public override void OnDrag(PointerEventData eventData)
     {
         base.OnDrag(eventData);
-
         var JoystickPosition = this.content.anchoredPosition;
         var position = this.content.localPosition;
-
-        if(JoystickPosition.magnitude>JoystickRadiu)
+        if (position.magnitude < radius)
         {
-            JoystickPosition=JoystickPosition.normalized*JoystickRadiu;
+
+            if (JoystickPosition.magnitude > JoystickRadiu)
+            {
+                JoystickPosition = JoystickPosition.normalized * JoystickRadiu;
+                SetContentAnchoredPosition(JoystickPosition);
+            }
+        }
+        else
+        {
+            JoystickPosition = JoystickPosition.normalized * radius;
             SetContentAnchoredPosition(JoystickPosition);
         }
     }

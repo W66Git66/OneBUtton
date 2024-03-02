@@ -6,7 +6,7 @@ public class Joystick : ScrollRect
 {
     protected float JoystickRadiu = 0f;//遥杆范围半径
 
-    private float radius=140f;//摇杆最大半径
+    public float radius=140f;//摇杆最大半径
     
     public Vector2 moveVector=new Vector2();//摇杆相对移动距离
     protected override void Start()
@@ -40,7 +40,7 @@ public class Joystick : ScrollRect
 
     private void Update()
     {
-        moveVector = this.content.localPosition;//摇杆相对位移
+            moveVector = this.content.localPosition;//摇杆相对位移
     }
 
 

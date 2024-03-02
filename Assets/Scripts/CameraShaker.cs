@@ -1,18 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraShaker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private CinemachineBasicMultiChannelPerlin noise;
+    private void OnEnable()
     {
-        
+        EventManager.OnCameraShake += ShakeRequest;
+        EventManager.OutCameraShake += EndShake;
+    }
+    private void Awake()
+    {
+        noise = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        EventManager.OnCameraShake -= ShakeRequest;
+        EventManager.OutCameraShake -= EndShake;
+    }
+
+    private void ShakeRequest()
+    {
+        noise.m_AmplitudeGain = 1;
+        noise.m_FrequencyGain = 1;
+    }
+
+    private void EndShake()
+    {
+        noise.m_AmplitudeGain = 0;
+        noise.m_FrequencyGain = 0;
     }
 }

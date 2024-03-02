@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed;//角色移动速度
 
-    private float bounceCooldown=0.5f; //弹反冷却时间
     private float boxingCoolDown = 3f;//拳击持续时间
     private bool isBoxing = true;
 
     private Vector2 lastJoystickPosition=new Vector2();//保存延迟
     private bool isBounceEventRunning = false;
+
+    
 
     private Animator anim;
 
@@ -29,7 +30,6 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Ymove", joystick.moveVector.y);
         anim.SetFloat("Speed", joystick.moveVector.magnitude);
 
-        bounceCooldown -= Time.deltaTime;
         StartCoroutine(BounceEvent(joystick.moveVector));
         if(boxingCoolDown>0)
         {
@@ -44,8 +44,10 @@ public class PlayerController : MonoBehaviour
        
     private void Bounce()
     {
+        EventManager.CallOnCameraShake();
         anim.SetTrigger("Kick");
        Debug.Log("Dash triggered!");
+        StartCoroutine(WaitEndCameraShake());
     }
     private void PlayerMove(Vector2 moveVector,float speed)
     {
@@ -66,6 +68,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator WaitEndCameraShake()
+    {
+        yield return new WaitForSeconds(0.7f);
+        EventManager.CallOutCameraShake();     
+    }
+
     IEnumerator BounceEvent(Vector2 direction)
     {
         if (isBounceEventRunning)
@@ -75,17 +83,17 @@ public class PlayerController : MonoBehaviour
 
         isBounceEventRunning = true;
         
-        if (bounceCooldown<0&&direction.magnitude > 100)
+        if (direction.magnitude > 100)
         {
             lastJoystickPosition = joystick.moveVector;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
             if ((lastJoystickPosition.x * joystick.moveVector.x) < 0
             || lastJoystickPosition.y * joystick.moveVector.y < 0)
             {
                 if (Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) > 90f|| Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) < -90f)
                 {
                     Bounce(); // 执行弹反
-                    bounceCooldown = 0.5f;
+                    yield return new WaitForSeconds(1f);
                 }
             }
             

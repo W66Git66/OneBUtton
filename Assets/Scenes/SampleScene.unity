@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1895311580}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 1.5
+    OrthographicSize: 2
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -329,7 +329,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 1.5
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -353,7 +353,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -0.19, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1089,11 +1089,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2c6849d4ded1b4492ff9c87eaf5859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 218632437512732157, guid: bf61349058bb16d42891d2e343529084, type: 3}
-  Xmin: -1000
-  Xmax: 1000
-  Ymin: -1000
-  Ymax: 1000
+  Flower: {fileID: 0}
+  Worm: {fileID: 0}
+  Xmin: -3
+  Xmax: 3
+  Ymin: -2
+  Ymax: 2
 --- !u!4 &1585295000
 Transform:
   m_ObjectHideFlags: 0
@@ -1333,9 +1334,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1895311577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.11086679, y: 0.11086679, z: 0.11086679}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.19, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

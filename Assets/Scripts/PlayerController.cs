@@ -9,10 +9,12 @@ public class PlayerController : MonoBehaviour
     private float speed;//角色移动速度
 
     private float boxingCoolDown = 3f;//拳击持续时间
-    private bool isBoxing = true;
+    //private bool isBoxing = true;
 
     private Vector2 lastJoystickPosition=new Vector2();//保存延迟
     private bool isBounceEventRunning = false;
+
+    private bool isBounce=false;
 
     
 
@@ -34,11 +36,11 @@ public class PlayerController : MonoBehaviour
         if(boxingCoolDown>0)
         {
             boxingCoolDown -= Time.deltaTime;
-            isBoxing = false;
+           // isBoxing = false;
         }
         else
         {
-            isBoxing = true;
+           // isBoxing = true;
         }
     }
        
@@ -46,8 +48,10 @@ public class PlayerController : MonoBehaviour
     {
         EventManager.CallOnCameraShake();
         anim.SetTrigger("Kick");
+        speed=0.5f*speed;
        Debug.Log("Dash triggered!");
         StartCoroutine(WaitEndCameraShake());
+        
     }
     private void PlayerMove(Vector2 moveVector,float speed)
     {
@@ -63,7 +67,7 @@ public class PlayerController : MonoBehaviour
                     moveVector.x = moveVector.x * (float)Mathf.Sqrt(0.5f);
                     moveVector.y = moveVector.y * (float)Mathf.Sqrt(0.5f);
                 }
-                transform.Translate(moveVector.normalized * speed * Time.deltaTime);
+                    transform.Translate(moveVector.normalized * speed * Time.deltaTime);
             }
         }
     }
@@ -71,6 +75,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator WaitEndCameraShake()
     {
         yield return new WaitForSeconds(0.7f);
+        speed = 2f*speed;
         EventManager.CallOutCameraShake();     
     }
 

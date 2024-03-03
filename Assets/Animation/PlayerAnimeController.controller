@@ -200,7 +200,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -40, y: 40, z: 0}
-  m_EntryPosition: {x: -50, y: 190, z: 0}
+  m_EntryPosition: {x: -70, y: 200, z: 0}
   m_ExitPosition: {x: 970, y: 10, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 5672822176204083664}
@@ -391,8 +391,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -508,7 +508,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 4b1d600db97d9be4fb6f6c2b984fd3ad, type: 2}
     m_Threshold: 0
     m_Position: {x: 1, y: 0}
-    m_TimeScale: 0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -516,7 +516,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 1c70e28f37076324e9a7507b9e23df66, type: 2}
     m_Threshold: 0.06666667
     m_Position: {x: -1, y: 0}
-    m_TimeScale: 0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -524,7 +524,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 4b1d600db97d9be4fb6f6c2b984fd3ad, type: 2}
     m_Threshold: 0.13333334
     m_Position: {x: 1, y: 1}
-    m_TimeScale: 0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -532,7 +532,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 4b1d600db97d9be4fb6f6c2b984fd3ad, type: 2}
     m_Threshold: 0.20000002
     m_Position: {x: 1, y: -1}
-    m_TimeScale: 0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -540,7 +540,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 1c70e28f37076324e9a7507b9e23df66, type: 2}
     m_Threshold: 0.26666668
     m_Position: {x: -1, y: 1}
-    m_TimeScale: 0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -548,7 +548,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 1c70e28f37076324e9a7507b9e23df66, type: 2}
     m_Threshold: 0.33333334
     m_Position: {x: -1, y: -1}
-    m_TimeScale: 0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -579,7 +579,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 1
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -601,7 +601,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 1
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1

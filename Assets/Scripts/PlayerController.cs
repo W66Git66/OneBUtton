@@ -14,15 +14,35 @@ public class PlayerController : MonoBehaviour
     private Vector2 lastJoystickPosition=new Vector2();//保存延迟
     private bool isBounceEventRunning = false;
 
-    private bool isBounce=false;
+    private float Health=100;
+    private float MaxHealth=100;//角色生命值
+
+
+    private Transform colliderBox;
+    private Collider2D Playercollider;//角色碰撞
+    private Collider2D BounceCollider;//弹反检测
+  
 
     
 
     private Animator anim;
 
+    private void OnEnable()
+    {
+        EventManager.PlayerHurt += Hurt;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.PlayerHurt -= Hurt;
+    }
+
     private void Start()
     {
         anim = GetComponent<Animator>();
+        Playercollider = GetComponent<Collider2D>();//角色碰撞体
+        colliderBox=transform.GetChild(0);//反弹挂件
+        BounceCollider = colliderBox.GetComponent<Collider2D>();//反弹的碰撞体
     }
 
     private void Update()
@@ -33,25 +53,13 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed", joystick.moveVector.magnitude);
 
         StartCoroutine(BounceEvent(joystick.moveVector));
-        if(boxingCoolDown>0)
-        {
-            boxingCoolDown -= Time.deltaTime;
-           // isBoxing = false;
-        }
-        else
-        {
-           // isBoxing = true;
-        }
     }
        
     private void Bounce()
     {
-        EventManager.CallOnCameraShake();
-        anim.SetTrigger("Kick");
-        speed=0.5f*speed;
-       Debug.Log("Dash triggered!");
+        speed =0.5f*speed;
         StartCoroutine(WaitEndCameraShake());
-        
+        StartCoroutine(GetHurtOrBounce());    
     }
     private void PlayerMove(Vector2 moveVector,float speed)
     {
@@ -74,9 +82,15 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator WaitEndCameraShake()
     {
-        yield return new WaitForSeconds(0.7f);
-        speed = 2f*speed;
-        EventManager.CallOutCameraShake();     
+        anim.SetTrigger("Kick");
+        yield return new WaitForSeconds(0.4f);
+        EventManager.CallOnCameraShake();
+        BounceCollider.enabled = true;
+        //弹反结束
+        yield return new WaitForSeconds(0.2f); 
+        EventManager.CallOutCameraShake(); 
+        speed = 2f*speed; 
+        BounceCollider.enabled = false;
     }
 
     IEnumerator BounceEvent(Vector2 direction)
@@ -93,12 +107,14 @@ public class PlayerController : MonoBehaviour
             lastJoystickPosition = joystick.moveVector;
                 yield return new WaitForSeconds(0.1f);
             if ((lastJoystickPosition.x * joystick.moveVector.x) < 0
-            || lastJoystickPosition.y * joystick.moveVector.y < 0)
+                 || lastJoystickPosition.y * joystick.moveVector.y < 0)
             {
-                if (Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) > 90f|| Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) < -90f)
+                if (Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) > 90f
+                    || Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) < -90f)
                 {
                     Bounce(); // 执行弹反
-                    yield return new WaitForSeconds(1f);
+                    colliderBox.localPosition = joystick.moveVector.normalized ;    
+                    yield return new WaitForSeconds(1f);//弹反冷却
                 }
             }
             
@@ -106,4 +122,19 @@ public class PlayerController : MonoBehaviour
         
         isBounceEventRunning = false;
     }
- }
+
+    private void Hurt()
+    {
+        Health -= 10;
+        Debug.Log(Health);
+        StartCoroutine(GetHurtOrBounce());
+    }
+
+    IEnumerator GetHurtOrBounce()
+    {   
+        Playercollider.enabled = false;
+        yield return new WaitForSeconds(2f);//无敌时间
+        Playercollider.enabled = true;
+    }
+
+}

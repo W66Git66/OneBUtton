@@ -330,6 +330,7 @@
 -r:"E:/Unity/progect/OneBUtton/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Cinemachine.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/com.unity.cinemachine.editor.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Unity.2D.Sprite.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.PlasticSCM.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Rider.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.TextMeshPro.Editor.ref.dll"
@@ -356,6 +357,7 @@
 "Assets/Scripts/Manager/MonsterManager.cs"
 "Assets/Scripts/Manager/TimeManager.cs"
 "Assets/Scripts/Monster.cs"
+"Assets/Scripts/MonsterBullet.cs"
 "Assets/Scripts/PlayerController.cs"
 -langversion:9.0
 

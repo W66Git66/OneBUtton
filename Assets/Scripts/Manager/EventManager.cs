@@ -34,4 +34,13 @@ public static class EventManager
         BounceEvent?.Invoke();
     }
 
+    //**********½ÇÉ«ÊÜÉË**************
+
+    public static event Action PlayerHurt;
+    public static void CallPlayerHurt()
+    {
+        PlayerHurt?.Invoke();
+    }
+
+
 }

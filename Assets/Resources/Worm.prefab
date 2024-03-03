@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8166073051069509017}
   - component: {fileID: 5379118797096166243}
   - component: {fileID: 4464601765580070436}
+  - component: {fileID: 3874882751140861350}
   m_Layer: 0
   m_Name: Worm
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fd80962cc7bc5448755ed480a613f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 4919698016877184234, guid: 14cf568a644c0d84b885c71b89f93024, type: 3}
 --- !u!95 &4464601765580070436
 Animator:
   serializedVersion: 5
@@ -108,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 5184100160734197791}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 23c7691d34223e042b3f03fa1d6f5145, type: 2}
+  m_Controller: {fileID: 9100000, guid: ff6f76f8bfb80b3468e03e3c0a15fb0f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -119,3 +121,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &3874882751140861350
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184100160734197791}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

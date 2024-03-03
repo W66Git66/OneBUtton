@@ -9,8 +9,8 @@ public class MonsterManager : MonoBehaviour
     public GameObject Flower;
     public GameObject Worm;
     private ObjectPool<GameObject> pool;
-    float CreateTime = 5f;
-    GameObject Monster1;
+    private float CreateTime = 1f;
+
     public float Xmin, Xmax, Ymin, Ymax;//随机生成怪物
     List<GameObject> list;
     private void Awake()
@@ -20,9 +20,6 @@ public class MonsterManager : MonoBehaviour
     }
     private void Start()
     {
-        Worm = Resources.Load<GameObject>("Worm");//加载预制体
-        Flower = Resources.Load<GameObject>("Flower");
-
         list = new List<GameObject>() { Worm,Flower };
     }
 
@@ -54,7 +51,7 @@ public class MonsterManager : MonoBehaviour
         CreateTime -= Time.deltaTime;
         if (CreateTime <= 0)
         {
-            CreateTime = Random.Range(3, 10);//随机倒计时3-10秒后再次生成
+            CreateTime = Random.Range(3f, 10f);//随机倒计时3-10秒后再次生成
             GameObject temp=pool.Get();
             temp.transform.position = new Vector2(Random.Range(Xmin, Xmax), Random.Range(Ymin, Ymax));//随机敌人生成在一定范围内
         }

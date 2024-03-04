@@ -11,6 +11,9 @@ public class MonsterBullet : MonoBehaviour
 
     private bool isBounce = false;
     private GameObject bullet;
+
+    [SerializeField]
+    private int hurtAmount;//伤害数值
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isBounce == false)
@@ -20,9 +23,9 @@ public class MonsterBullet : MonoBehaviour
             {
                 Debug.Log("角色");
                 EventManager.CallPlayerHurt();
+                EventManager.CallOnHurt();
                 if (bullet != null)
                 {
-                    Debug.Log("111");
                     transform.parent.GetComponent<Monster>().RealseBullet(bullet);
                 }
             }
@@ -30,6 +33,7 @@ public class MonsterBullet : MonoBehaviour
             {
                 isBounce = true;
                 bulletSpeed *= 1.2f;//反弹加速
+                transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + 180);
                 Debug.Log("弹反");
                 StartCoroutine(ReturnBullet());
             } 
@@ -38,11 +42,14 @@ public class MonsterBullet : MonoBehaviour
         {
             if(collision.tag=="Monster")
             {
+                isBounce = false;
                 Debug.Log("对怪物造成伤害");
+                //EventManager.CallOnBoxing();
+                collision.GetComponent<Monster>().MonsterHurt();
                 //对怪物造成伤害
-                if (bullet != null)
+                if (bullet != null&&collision!=null)
                 {
-                    Debug.Log("111");
+                    //collision.GetComponent<HealthBar>().DecreaseHealth(hurtAmount);
                     transform.parent.GetComponent<Monster>().RealseBullet(bullet);
                 }
             }
@@ -55,30 +62,18 @@ public class MonsterBullet : MonoBehaviour
     }
     void Update()
     {
-        BulletAttack();
+        transform.Translate(0f,Time.deltaTime * bulletSpeed ,0f);
     }
 
-    private void BulletAttack()
+    
+     IEnumerator ReturnBullet()
     {
-           if(isBounce==false)
-        {
-            transform.Translate(0f,Time.deltaTime * bulletSpeed ,0f);
-        }
-        else
-        {
-            transform.Translate(0f,-Time.deltaTime * bulletSpeed ,0f);
-            transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z+180);
-            isBounce = false;
-        }
-           
-    }
-
-    IEnumerator ReturnBullet()
-    {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         if (bullet.gameObject.activeSelf == false)
         {
             isBounce = false;
+            bulletSpeed /= 1.2f;
+            transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + 180);
         }
     }
 }

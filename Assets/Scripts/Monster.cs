@@ -10,16 +10,25 @@ public class Monster : MonoBehaviour
 {
     public GameObject bullet;
     private GameObject player;
+    private GameObject monster;
+    public GameObject gameController;
 
     float shootTime = 2f;
     private ObjectPool<GameObject> pool;
 
+    [SerializeField]
+    private float maxHp=100;
+    [SerializeField]
+    private float currentHp=100;
 
     private void Awake()
     {
         pool = new ObjectPool<GameObject>(createFunc, actionOnGet, actionOnRelease, actionOnDestroy, true, 10, 1000);
         player = GameObject.FindGameObjectWithTag("Player");
+        monster = gameObject;
+        gameController = GameObject.FindGameObjectWithTag("GameController");
     }
+
 
     public GameObject createFunc()
     {
@@ -48,6 +57,15 @@ public class Monster : MonoBehaviour
     void Update()
     {
         MonsterShoot();
+        if(currentHp<=0)
+        {
+            if (monster != null)
+            {
+                transform.parent.GetComponent<MonsterManager>().RealseMonster(monster);
+                currentHp = maxHp;
+            }
+            gameController.GetComponent<GameManager>().CountKillNmuber();
+        }
     }
 
     void MonsterShoot()
@@ -59,8 +77,6 @@ public class Monster : MonoBehaviour
             shootTime = 2f;
 
             StartCoroutine(DestroyBullet(temp));
-        
-
         }
         
     }
@@ -69,10 +85,9 @@ public class Monster : MonoBehaviour
     {
         Vector3 direction = player.transform.position - transform.position;
         temp.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction.normalized);
-        yield return new WaitForSeconds(3f);//×Óµ¯ÀäÈ´
+        yield return new WaitForSeconds(10f);//×Óµ¯ÀäÈ´
         if (temp.activeSelf)
         {
-            Debug.Log("222");
             RealseBullet(temp);
         }
     }
@@ -80,6 +95,11 @@ public class Monster : MonoBehaviour
     public void RealseBullet (GameObject gameObject)
     {
         pool.Release(gameObject);
+    }
+
+    public void MonsterHurt()
+    {
+        currentHp -= 50;
     }
 
 }

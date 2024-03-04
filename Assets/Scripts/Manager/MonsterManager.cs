@@ -56,4 +56,9 @@ public class MonsterManager : MonoBehaviour
             temp.transform.position = new Vector2(Random.Range(Xmin, Xmax), Random.Range(Ymin, Ymax));//随机敌人生成在一定范围内
         }
     }
+
+    public void RealseMonster(GameObject gameObject)
+    {
+        pool.Release(gameObject);
+    }
 }

@@ -13,14 +13,14 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 lastJoystickPosition=new Vector2();//保存延迟
     private bool isBounceEventRunning = false;
-
-    private float Health=100;
-    private float MaxHealth=100;//角色生命值
-
+    private bool isBlock=true;//玩家手部被封锁
 
     private Transform colliderBox;
     private Collider2D Playercollider;//角色碰撞
     private Collider2D BounceCollider;//弹反检测
+
+    public bool isDead;
+
   
 
     
@@ -30,11 +30,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         EventManager.PlayerHurt += Hurt;
+        EventManager.OnBoxing += Boxing;
     }
 
     private void OnDisable()
     {
         EventManager.PlayerHurt -= Hurt;
+        EventManager.OnBoxing += Boxing;
     }
 
     private void Start()
@@ -48,8 +50,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerMove(joystick.moveVector, speed);
-        anim.SetFloat("Xmove", joystick.moveVector.x);
-        anim.SetFloat("Ymove", joystick.moveVector.y);
+        anim.SetFloat("Xmove", joystick.moveVector.normalized.x);
+        anim.SetFloat("Ymove", joystick.moveVector.normalized.y);
         anim.SetFloat("Speed", joystick.moveVector.magnitude);
 
         StartCoroutine(BounceEvent(joystick.moveVector));
@@ -83,41 +85,44 @@ public class PlayerController : MonoBehaviour
     IEnumerator WaitEndCameraShake()
     {
         anim.SetTrigger("Kick");
-        yield return new WaitForSeconds(0.4f);
         EventManager.CallOnCameraShake();
         BounceCollider.enabled = true;
+        yield return new WaitForSeconds(0.3f); //相机              
         //弹反结束
-        yield return new WaitForSeconds(0.2f); 
         EventManager.CallOutCameraShake(); 
+        yield return new WaitForSeconds(0.4f);      
         speed = 2f*speed; 
         BounceCollider.enabled = false;
+        StartCoroutine(GetHurtOrBounce());
     }
 
     IEnumerator BounceEvent(Vector2 direction)
     {
-        if (isBounceEventRunning)
+        if (isBounceEventRunning|| direction.magnitude <= 100)
         {
             yield break; // 如果有，直接返回，不执行任何操作
         }
 
         isBounceEventRunning = true;
-        
+        lastJoystickPosition = joystick.moveVector;
+        yield return new WaitForSeconds(0.1f);//记录位置间隔
         if (direction.magnitude > 100)
         {
-            lastJoystickPosition = joystick.moveVector;
-                yield return new WaitForSeconds(0.1f);
+                
             if ((lastJoystickPosition.x * joystick.moveVector.x) < 0
                  || lastJoystickPosition.y * joystick.moveVector.y < 0)
             {
                 if (Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) > 90f
                     || Vector2.SignedAngle(lastJoystickPosition, joystick.moveVector) < -90f)
                 {
+                   // Debug.Log();
                     Bounce(); // 执行弹反
-                    colliderBox.localPosition = joystick.moveVector.normalized ;    
-                    yield return new WaitForSeconds(1f);//弹反冷却
+                    float rotation = Mathf.Rad2Deg * Mathf.Atan2(joystick.moveVector.y - lastJoystickPosition.y, joystick.moveVector.x - lastJoystickPosition.x);
+                    colliderBox.localPosition = joystick.moveVector.normalized ;
+                    colliderBox.localRotation =Quaternion.Euler(0,0, rotation);
+                    yield return new WaitForSeconds(0.8f);//弹反冷却
                 }
-            }
-            
+            }   
         }
         
         isBounceEventRunning = false;
@@ -125,16 +130,26 @@ public class PlayerController : MonoBehaviour
 
     private void Hurt()
     {
-        Health -= 10;
-        Debug.Log(Health);
         StartCoroutine(GetHurtOrBounce());
     }
 
     IEnumerator GetHurtOrBounce()
     {   
         Playercollider.enabled = false;
-        yield return new WaitForSeconds(2f);//无敌时间
+        yield return new WaitForSeconds(0.7f);//无敌时间
         Playercollider.enabled = true;
+    }
+
+    private void Boxing()
+    {
+        StartCoroutine(StartBoxing());
+    }
+    IEnumerator StartBoxing()
+    {
+        anim.SetTrigger("Boxing");
+        isBlock = false;
+        yield return new WaitForSeconds(5f);
+        isBlock = true;
     }
 
 }

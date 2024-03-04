@@ -5,6 +5,7 @@ using System;
 
 public static class EventManager 
 {
+
     public static event Action Pause;
     public static void CallOnpause()
     {
@@ -42,5 +43,18 @@ public static class EventManager
         PlayerHurt?.Invoke();
     }
 
+    //**********ÑªÌõ¸Ä±ä***************
+
+    public static event Action OnBoxing;
+    public static void CallOnBoxing()
+    {
+        OnBoxing?.Invoke();
+    }
+
+    public static event Action OnHurt;
+    public static void CallOnHurt()
+    {
+        OnHurt?.Invoke();
+    }
 
 }
